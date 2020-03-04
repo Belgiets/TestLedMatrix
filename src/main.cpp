@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <LedControl.h>
+#include <iarduino_RTC.h>
 
 /* 
  * dataPin		pin on the Arduino where data gets shifted out
@@ -11,9 +12,18 @@
  */  
 LedControl matrix = LedControl(12, 10, 11, 4);
 
+/**
+ * name, rst , clk, data;
+ */
+// iarduino_RTC watch = iarduino_RTC(RTC_DS1302, 2, 3, 4);
+
 void setup() {
   Serial.begin(9600);
-
+  // watch.begin();
+  //sec/min/hour/day/month/year/day of the week
+  // watch.settime(-1, 45, 21, 20, 1, 2020, 4);
+  // watch.blinktime(2);
+    
   for (int index = 0; index < matrix.getDeviceCount(); index++) {
     matrix.shutdown(index, false);
     matrix.setIntensity(index, 1);
@@ -27,21 +37,21 @@ void loop() {
   //   delay(1000);
   //   matrix.clearDisplay(index);
   // }
-
-  matrix.setChar(0, 0, 'd', false);
-
-  // matrix.setRow(0, 0, B11111111);
-  // matrix.setRow(1, 2, B11111111);
-  // matrix.setRow(2, 4, B11111111);
-  // matrix.setRow(3, 6, B11111111);
+  
+  matrix.setRow(0, 0, B11111111);
+  matrix.setRow(1, 2, B11111111);
+  matrix.setRow(2, 4, B11111111);
+  matrix.setRow(3, 6, B11111111);
 
   matrix.setIntensity(0, 0);
   matrix.setIntensity(1, 1);
   matrix.setIntensity(2, 8);
   matrix.setIntensity(3, 15);
-  delay(5000);
+  delay(1000);
   for (int index = 0; index < matrix.getDeviceCount(); index++) {
     matrix.clearDisplay(index);
   }
   delay(5000);
+
+  // Serial.println(watch.gettime("H:i:s"));
 }
