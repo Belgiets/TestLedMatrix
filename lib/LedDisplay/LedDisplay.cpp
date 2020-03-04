@@ -3,7 +3,19 @@
 #include <SPI.h>
 #include <LedControl.h>
 
+/* 
+ * dataPin		pin on the Arduino where data gets shifted out
+ * clockPin		pin for the clock
+ * csPin		pin for selecting the device 
+ * numDevices	maximum number of devices that can be controled
+ */
 LedDisplay::LedDisplay(int dataPin, int clockPin, int csPin):matrices(dataPin, clockPin, csPin, 4) {};
+
+void LedDisplay::SetIntensity(int intensity) {
+    for (int i = 0; i < matrices.getDeviceCount(); i++) {
+        matrices.setIntensity(i, intensity);
+    }
+};
 
 void LedDisplay::begin(void) {
     for (int index = 0; index < matrices.getDeviceCount(); index++) {
