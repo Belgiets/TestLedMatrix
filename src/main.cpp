@@ -23,7 +23,7 @@ void setup() {
   Serial.begin(9600);
   watch.begin();
   //sec/min/hour/day/month/year/day of the week
-  watch.settime(-1, 45, 21, 20, 1, 2020, 4);
+  watch.settime(-1, 45, 7, 20, 1, 2020, 4);
   // watch.blinktime(2);
     
   // for (int index = 0; index < matrix.getDeviceCount(); index++) {
@@ -50,15 +50,12 @@ void loop() {
   // matrix.setIntensity(1, 1);
   // matrix.setIntensity(2, 8);
   // matrix.setIntensity(3, 15);
-  display.test();
-  delay(1000);
+  // delay(1000);
   // for (int index = 0; index < matrix.getDeviceCount(); index++) {
   //   matrix.clearDisplay(index);
   // }
-  display.clearAll();
-  delay(5000);
-  
-  // Serial.println(watch.gettime("H:i:s"));
-  Serial.println(watch.gettime("H"));
-  Serial.println(watch.gettime("i"));
+  display.clearAll();  
+  // Serial.println(watch.gettime("H:i"));
+  display.displayTime(watch.gettime("H:i"));
+  delay(30000);
 }
