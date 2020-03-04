@@ -7,8 +7,9 @@ class LedDisplay {
 private:
     int intensity;
     LedControl matrices;
-    void displayChar(String value, int matrix);
-    void fillRows(byte rows[], String value);
+    void displayChar(String value, int matrix, int separator);
+    void fillRows(byte rows[], String value, int separator);
+    void LedDisplay::reverseRows(byte rows[]);
 
 public:
     LedDisplay(int dataPin, int clockPin, int csPin);

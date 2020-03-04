@@ -23,7 +23,7 @@ void setup() {
   Serial.begin(9600);
   watch.begin();
   //sec/min/hour/day/month/year/day of the week
-  watch.settime(-1, 45, 7, 20, 1, 2020, 4);
+  // watch.settime(-1, 27, 17, 4, 3, 2020, 4);
   // watch.blinktime(2);
     
   // for (int index = 0; index < matrix.getDeviceCount(); index++) {
@@ -55,7 +55,7 @@ void loop() {
   //   matrix.clearDisplay(index);
   // }
   display.clearAll();  
-  // Serial.println(watch.gettime("H:i"));
+  Serial.println(watch.gettime("H:i"));
   display.displayTime(watch.gettime("H:i"));
   delay(30000);
 }

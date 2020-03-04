@@ -27,20 +27,21 @@ void LedDisplay::displayTime(char* time) {
     
     //show hours
     String hoursFirst = timeStr.substring(0, 1);
-    displayChar(hoursFirst, 0);
+    displayChar(hoursFirst, 0, 0);
     String hoursSecond = timeStr.substring(1, 2);
-    displayChar(hoursSecond, 1);
+    displayChar(hoursSecond, 1, 1);
 
     // show minutes
     String minutesFirst = timeStr.substring(3, 4);
-    displayChar(minutesFirst, 2);
+    displayChar(minutesFirst, 2, 2);
     String minutesSecond = timeStr.substring(4, 5);
-    displayChar(minutesSecond, 3);
+    displayChar(minutesSecond, 3, 0);
 }
 
-void LedDisplay::displayChar(String value, int matrix) {
+void LedDisplay::displayChar(String value, int matrix, int separator) {
     byte rows[8];
-    fillRows(rows, value);
+    fillRows(rows, value, separator);
+    reverseRows(rows);
     
     for (int index = 0; index < 8; index++) {
         matrices.setRow(matrix, index, rows[index]);
@@ -48,16 +49,27 @@ void LedDisplay::displayChar(String value, int matrix) {
 };
 
 void LedDisplay::test(void) {
-    byte rows[8];
-    fillRows(rows, "0");
+    // byte rows[8];
+    // fillRows(rows, "0");
     
-    for (int index = 0; index < 8; index++) {
-        Serial.println(rows[index], BIN);
-        matrices.setRow(0, index, rows[index]);
-    }
+    // for (int i = 0; i < 8; i++) {
+    //     matrices.setRow(0, i, rows[i]);
+    // }
 };
 
-void LedDisplay::fillRows(byte rows[], String value) {
+void LedDisplay::reverseRows(byte rows[]) {
+    byte bufferVertical[8];
+
+    for (int i = 0, k = 7; i < 8; i++, k--) {
+        byte bufferHorizontal = (rows[i] >> 7 & 0x1) | (rows[i] >> 5 & 0x2 ) | (rows[i] >> 3 & 0x4 ) | (rows[i] >> 1 & 0x8 )| (rows[i] << 1 & 0x10) | (rows[i] << 3 & 0x20) | (rows[i] << 5 & 0x40) | (rows[i] << 7 & 0x80);
+        bufferVertical[k] = bufferHorizontal;
+    }
+    for (int i = 0; i < 8; i++) {
+        rows[i] = bufferVertical[i];
+    }    
+}
+
+void LedDisplay::fillRows(byte rows[], String value, int separator) {
     if (value == "0") {
         rows[0] = B00000000;
         rows[1] = B00011000;
@@ -148,5 +160,20 @@ void LedDisplay::fillRows(byte rows[], String value) {
         rows[5] = B00000100;
         rows[6] = B00011000;
         rows[7] = B00000000;
+    }
+
+    switch (separator) {
+        case 1:
+        bitWrite(rows[3], 0, 1);
+        bitWrite(rows[4], 0, 1);
+        break;
+
+        case 2:
+        bitWrite(rows[3], 7, 1);
+        bitWrite(rows[4], 7, 1);
+        break;
+
+        default:
+        break;
     }
 };
