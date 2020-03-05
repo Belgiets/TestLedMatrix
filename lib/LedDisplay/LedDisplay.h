@@ -17,7 +17,6 @@ public:
     void clearAll(void);
     void displayTime(char* time);
     void SetIntensity(int intensity);
-    void test(void);
 };
 
 #endif
