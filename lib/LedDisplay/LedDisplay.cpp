@@ -60,15 +60,6 @@ void LedDisplay::displayChar(String value, int matrix, int separator) {
     }
 };
 
-void LedDisplay::test(void) {
-    // byte rows[8];
-    // fillRows(rows, "0");
-    
-    // for (int i = 0; i < 8; i++) {
-    //     matrices.setRow(0, i, rows[i]);
-    // }
-};
-
 void LedDisplay::reverseRows(byte rows[]) {
     byte bufferVertical[8];
 
